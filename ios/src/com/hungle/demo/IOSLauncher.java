@@ -10,7 +10,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements ControlsApp{
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new UILib(), config);
+        return new IOSApplication(new BlockGame(this), config);
     }
 
     public static void main(String[] argv) {
