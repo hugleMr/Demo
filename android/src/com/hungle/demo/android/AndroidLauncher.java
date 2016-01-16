@@ -18,6 +18,7 @@ import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdRequest.Builder;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -103,6 +104,9 @@ public class AndroidLauncher extends AndroidApplication implements ControlsApp{
 		setContentView(layout);
 	}
 	
+	
+	//=============== Facebook Sdk
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -119,53 +123,9 @@ public class AndroidLauncher extends AndroidApplication implements ControlsApp{
 	
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		GoogleAnalytics.getInstance(this).reportActivityStart(this);
-	}
-	
-	@Override
-	protected void onStop() {
-		super.onStop();
-		GoogleAnalytics.getInstance(this).reportActivityStop(this);
-	}
-	
-	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		callbackManager.onActivityResult(requestCode, resultCode, data);
-	}
-	
-	public enum TrackerName {
-		APP_TRACKER, // Tracker used only in this app.
-		GLOBAL_TRACKER, // Tracker used by all the apps from a company. eg: roll-up tracking.
-		ECOMMERCE_TRACKER, // Tracker used by all ecommerce transactions from a company.
-	}
-	HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
-	
-	synchronized Tracker getTracker(TrackerName trackerId) {
-		if (!mTrackers.containsKey(trackerId)) {
-
-			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-			Tracker t = analytics.newTracker(R.xml.app_tracker);
-			mTrackers.put(trackerId, t);
-		}
-		return mTrackers.get(trackerId);
-	}
-	
-	public void setTrackerScreenName(String name) {
-		Tracker t = getTracker(TrackerName.APP_TRACKER);
-		t.setScreenName("Android_"+name);
-		t.send(new HitBuilders.ScreenViewBuilder().build());
-	}
-	
-	public void setActionAnalytics(String target,String value){
-		Tracker t = getTracker(TrackerName.APP_TRACKER);
-		t.set(target, value);
-		t.send(new HitBuilders.EventBuilder()
-				.setCategory("ANDROID_"+target)
-				.setAction("Clicked: ")
-				.setLabel("score: "+value).build());
 	}
 	
 	@Override
@@ -202,6 +162,10 @@ public class AndroidLauncher extends AndroidApplication implements ControlsApp{
 		
 		ShareDialog.show(this,content);
 	}
+	
+	
+	
+	//========== Banner ads & Full Ads
 
 	private void setupAds() {
 		bannerAd = new AdView(this);
@@ -262,11 +226,79 @@ public class AndroidLauncher extends AndroidApplication implements ControlsApp{
 			}
 		});
 	}
+	
+	protected void loadVideo() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				AdRequest.Builder builder = new Builder();
+				AdRequest adRequest = builder.build();
+				interstitialAd.loadAd(adRequest);
+			}
+		});	
+	}
 
 	@Override
 	public void showFullAds() {
 		// TODO Auto-generated method stub
-		
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (interstitialAd != null && interstitialAd.isLoaded()){
+					interstitialAd.show();
+				}else{
+					loadVideo();
+				}
+			}
+		});
+	}
+	
+	
+	
+	//=========================== Google Analytics!!
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
+	}
+	
+	public enum TrackerName {
+		APP_TRACKER, // Tracker used only in this app.
+		GLOBAL_TRACKER, // Tracker used by all the apps from a company. eg: roll-up tracking.
+		ECOMMERCE_TRACKER, // Tracker used by all ecommerce transactions from a company.
+	}
+	HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
+	
+	synchronized Tracker getTracker(TrackerName trackerId) {
+		if (!mTrackers.containsKey(trackerId)) {
+
+			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+			Tracker t = analytics.newTracker(R.xml.app_tracker);
+			mTrackers.put(trackerId, t);
+		}
+		return mTrackers.get(trackerId);
+	}
+	
+	public void setTrackerScreenName(String name) {
+		Tracker t = getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName("Android_"+name);
+		t.send(new HitBuilders.ScreenViewBuilder().build());
+	}
+	
+	public void setActionAnalytics(String target,String value){
+		Tracker t = getTracker(TrackerName.APP_TRACKER);
+		t.set(target, value);
+		t.send(new HitBuilders.EventBuilder()
+				.setCategory("ANDROID_"+target)
+				.setAction("Clicked: ")
+				.setLabel("score: "+value).build());
 	}
 
 	@Override
