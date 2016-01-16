@@ -6,7 +6,7 @@ public interface ControlsApp {
 	
 	public void shareScreenShot();
 	
-	public void showads();
+	public void showAds();
 	
 	public void hideAds();
 	
@@ -14,5 +14,5 @@ public interface ControlsApp {
 	
 	public void pushScreen(String screen);
 	
-	public void pushAction(String Target,String index);
+	public void pushAction(String target,String index);
 }

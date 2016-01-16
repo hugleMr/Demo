@@ -5,9 +5,8 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.hungle.demo.UILib;
 
-public class IOSLauncher extends IOSApplication.Delegate {
+public class IOSLauncher extends IOSApplication.Delegate implements ControlsApp{
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
@@ -19,4 +18,46 @@ public class IOSLauncher extends IOSApplication.Delegate {
         UIApplication.main(argv, null, IOSLauncher.class);
         pool.close();
     }
+
+	@Override
+	public void shareFacebook(int score) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shareScreenShot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showAds() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hideAds() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showFullAds() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pushScreen(String screen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pushAction(String target, String index) {
+		// TODO Auto-generated method stub
+		
+	}
 }
