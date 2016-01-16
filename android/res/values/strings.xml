@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Demo</string>
-    <string name="fb_id">759273787537828</string>
+    <!-- Add your facebook id in here -->
+    <string name="fb_id">123456789</string>
 
 </resources>
