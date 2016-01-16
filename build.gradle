@@ -78,6 +78,9 @@ project(":ios") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+	compile "org.robovm:robopods-facebook-ios:1.12.0"
+	compile "org.robovm:robopods-google-analytics-ios:1.12.0"
+	compile "org.robovm:robopods-google-mobile-ads-ios:1.12.0"
     }
 }
 

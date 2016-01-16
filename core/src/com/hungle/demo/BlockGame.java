@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class BlockGame extends Game {
+public class BlockGame extends Game{
 	SpriteBatch batch;
 	Texture img;
 	ControlsApp app;
